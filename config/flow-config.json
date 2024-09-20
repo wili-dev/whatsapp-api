@@ -1,0 +1,102 @@
+{
+    "flows": [
+      {
+        "id": "FLOW_INITIAL",
+        "delay": 1000,
+        "action": {
+          "type": "sendMessage",
+          "message": "Olá! Bem-vindo ao nosso atendimento. Como posso ajudar?",
+          "options": [
+            {
+              "type": "quickReply",
+              "content": [
+                {
+                  "text": "1 - Ver produtos",
+                  "next_flow": "FLOW_PRODUCTS"
+                },
+                {
+                  "text": "2 - Falar com atendente",
+                  "next_flow": "FLOW_SUPPORT"
+                }
+              ]
+            }
+          ]
+        },
+        "next_flow": {
+          "id": "FLOW_MAIN_MENU",
+          "delay": 1000
+        }
+      },
+      {
+        "id": "FLOW_MAIN_MENU",
+        "delay": 1000,
+        "action": {
+          "type": "sendMessage",
+          "message": "Escolha uma opção:\n1 - Ver produtos\n2 - Falar com atendente",
+          "options": [
+            {
+              "type": "quickReply",
+              "content": [
+                {
+                  "text": "1 - Ver produtos",
+                  "next_flow": "FLOW_PRODUCTS"
+                },
+                {
+                  "text": "2 - Falar com atendente",
+                  "next_flow": "FLOW_SUPPORT"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "FLOW_PRODUCTS",
+        "delay": 1000,
+        "action": {
+          "type": "sendMessage",
+          "message": "Aqui estão nossos produtos. Digite o número do produto para saber mais.",
+          "options": [
+            {
+              "type": "quickReply",
+              "content": [
+                {
+                  "text": "1 - Produto A",
+                  "next_flow": "FLOW_PRODUCT_A"
+                },
+                {
+                  "text": "2 - Produto B",
+                  "next_flow": "FLOW_PRODUCT_B"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "FLOW_SUPPORT",
+        "delay": 1000,
+        "action": {
+          "type": "sendMessage",
+          "message": "Por favor, aguarde enquanto conectamos você com um atendente."
+        }
+      },
+      {
+        "id": "FLOW_PRODUCT_A",
+        "delay": 1000,
+        "action": {
+          "type": "sendMessage",
+          "message": "Você escolheu o Produto A. Este produto custa R$100,00. Gostaria de comprar?"
+        }
+      },
+      {
+        "id": "FLOW_PRODUCT_B",
+        "delay": 1000,
+        "action": {
+          "type": "sendMessage",
+          "message": "Você escolheu o Produto B. Este produto custa R$150,00. Gostaria de comprar?"
+        }
+      }
+    ]
+  }
+  
