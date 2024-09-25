@@ -3,10 +3,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 import { WebhookController } from './interfaces/controllers/WebhookController.js';
-import { BotFlowRepository } from './infrastructure/repositories/BotFlowRepository.js';
+import { FlowConfigRepository } from './infrastructure/repositories/FlowConfigRepository.js';
+import { UsersRepository } from './infrastructure/repositories/UsersRepository.js';
 
-const botFlowRepository = new BotFlowRepository('./config/flow-config.json');
-const webhookController = new WebhookController(botFlowRepository);
+const usersRepository = new UsersRepository();
+const flowConfigRepository = new FlowConfigRepository('./config/flow-config.json');
+const webhookController = new WebhookController(flowConfigRepository, usersRepository);
 
 dotenv.config();
 

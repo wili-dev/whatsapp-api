@@ -1,19 +1,25 @@
 import { Request, Response } from 'express';
 
 import { Flow } from '../../domain/entities/Flow.js';
-import { IBotFlowRepository } from '../../domain/repositories/IBotFlowRepository.js';
+import { User } from '../../domain/entities/User.js';
+import { IFlowConfigRepository } from '../../domain/repositories/IFlowConfigRepository.js';
+import { IUsersRepository } from '../../domain/repositories/IUsersRepository.js';
+import { HandleBotFlowUseCase } from '../../application/usecases/HandleBotFlow.js';
 
 export class WebhookController {
 
-    private botFlowRepository: IBotFlowRepository;
+    private usersRepository: IUsersRepository;
+    private flowConfigRepository: IFlowConfigRepository;
     private flowMap: Map<string, Flow>;
 
-    constructor(botFlowRepository: IBotFlowRepository) {
+    constructor(flowConfigRepository: IFlowConfigRepository, usersRepository: IUsersRepository) {
 
-        this.botFlowRepository = botFlowRepository;
+        this.usersRepository = usersRepository;
 
-        const config = this.botFlowRepository.loadConfig();
-        this.flowMap = this.botFlowRepository.createMapConfig(config);
+        this.flowConfigRepository = flowConfigRepository;
+
+        const config = this.flowConfigRepository.loadConfig();
+        this.flowMap = this.flowConfigRepository.createMapConfig(config);
     }
 
     async validateWebhook(req: Request, res: Response): Promise<Response> {
@@ -33,12 +39,21 @@ export class WebhookController {
 
     async handleIncomingMessage(req: Request, res: Response): Promise<Response> {
 
-        // Exemplo de como pegar o fluxo inicial
-        const flow = this.flowMap.get('FLOW_INITIAL');
-        
-        if (flow) {
-            // Processar a mensagem com o fluxo adequado
+        let user;
+
+        const reqBody = req.body;
+        const msgBody = {
+
+            from: reqBody.entry[0].changes[0].value.contacts[0].wa_id,
+            name: reqBody.entry[0].changes[0].value.contacts[0].profile.name,
+            message: reqBody.entry[0].changes[0].value.messages[0],
         }
+
+        if ((user = await this.usersRepository.getUser(msgBody.from)) == undefined) {
+            user = new User(msgBody.from, msgBody.name);
+        }
+
+        new HandleBotFlowUseCase(this.flowMap, this.usersRepository).execute(user, msgBody.message);
 
         return res.sendStatus(200);
     }
