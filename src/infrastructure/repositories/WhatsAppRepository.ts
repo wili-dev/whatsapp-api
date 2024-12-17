@@ -1,8 +1,7 @@
-import { Message } from "../../domain/entities/Message.js";
 import { IHttpClient } from "../../domain/services/IHttpClient.js";
-import { IMessageRepository } from "../../domain/repositories/IMessageRepository.js";
+import { IWhatsAppRepository } from "../../domain/repositories/IWhatsAppRepository.js";
 
-export class WhatsAppRepository implements IMessageRepository {
+export class WhatsAppRepository implements IWhatsAppRepository {
 
     private httpClient: IHttpClient;
 
@@ -10,13 +9,11 @@ export class WhatsAppRepository implements IMessageRepository {
         this.httpClient = httpClient;
     }
 
-    async sendMessage(message: Message): Promise<void> {
+    async sendMessage(data: object): Promise<void> {
 
         const url = `https://graph.facebook.com/v20.0/${process.env.WHATSAPP_PHONE_ID}/messages`;
         const headers = { Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}` };
 
-        const result = await this.httpClient.post(url, message.getData(), headers);
-
-        console.log(result)
+       const result = await this.httpClient.post(url, data, headers);
     }
 }

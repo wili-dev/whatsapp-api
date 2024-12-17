@@ -1,0 +1,8 @@
+- Sistema para carregar o arquivo
+    - Carregar um arquivo .json de acordo com as especificações.
+    - O sistema deve ser capaz de obter o body completo do arquivo carregado.
+    - O sistema deve ser capaz de obter um body especifico, através do ID.
+
+- Armazenamento de dados (variáveis) referente ao Fluxo
+    - O sistema deve obter o nome da variável através da propriedade flow_var.
+    - O sistema deve verificar se o Fluxo está utilizando uma variável, passando um object.

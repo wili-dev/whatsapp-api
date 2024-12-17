@@ -1,0 +1,48 @@
+{
+    "flows": [
+        {
+            "id": "INITIAL_FLOW",
+            "type": "text",
+            "action": {
+                "request": {
+                    "messaging_product": "whatsapp",
+                    "recipient_type": "individual",
+                    "to": "+5511967374982",
+                    "type": "text",
+                    "text": { "body": "Bem-vindo ao nosso serviço!" }
+                }
+            },
+            "next_flow": "ASK_NAME"
+        },
+        {
+            "id": "ASK_NAME",
+            "type": "interactive",
+            "action": {
+                "request": {
+                    "messaging_product": "whatsapp",
+                    "recipient_type": "individual",
+                    "to": "+5511967374982",
+                    "type": "text",
+                    "text": { "body": "Qual o seu nome?" }
+                }
+            },
+            "flow_var": "user_name",
+            "next_flow": "FINAL_FLOW"
+        },
+        {
+            "id": "FINAL_FLOW",
+            "type": "text",
+            "action": {
+                "request": {
+                    "messaging_product": "whatsapp",
+                    "recipient_type": "individual",
+                    "to": "+5511967374982",
+                    "type": "text",
+                    "text": { "body": "É um prazer ${user_name}!" }
+                }
+            },
+            "reset_flow": true
+        }
+    ],
+    "defaultFlowId": "INITIAL_FLOW"
+}

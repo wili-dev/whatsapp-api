@@ -1,29 +1,16 @@
 export class User {
 
-    private id: string;
-    private name: string;
-    private stateFlow: string;
+    private state: string | undefined;
 
-    constructor(id: string, name: string) {
-
-        this.id = id;
-        this.name = name;
-        this.stateFlow = '';
+    constructor(state?: string) {
+        this.state = state ?? undefined;
     }
 
-    public getId(): string {
-        return this.id;
+    setState(state: string) {
+        this.state = state;
     }
 
-    public getName(): string {
-        return this.name;
-    }
-
-    public setStateFlow(state: string) {
-        this.stateFlow = state;
-    }
-
-    public getStateFlow(): string {
-        return this.stateFlow;
+    getState() {
+        return this.state;
     }
 }
